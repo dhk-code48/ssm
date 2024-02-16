@@ -1,0 +1,219 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  TEACHER
+  ADMIN
+  SUPERADMIN
+}
+
+enum Services {
+  HOSTEL
+  TRANSPORTATION
+}
+
+model GradingSystem {
+  id  String  @id @default(uuid())
+  percentageFrom Float
+  percentageTo  Float
+  point Float
+  remarks String  
+  name String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model User {
+  id            String    @id @default(uuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  password      String?
+  role          UserRole  @default(TEACHER)
+  image         String?
+  sections      Section[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Student {
+  id                 String   @id @default(uuid())
+  registrationNumber String
+  firstName          String
+  middleName         String?
+  lastName           String
+  image              String?
+  regesteredAt       DateTime
+  dob                DateTime
+  mobileNumber       String
+  country            String
+  temporaryAddress   String
+  permanentAddress   String
+  email              String
+  sectionId          String
+  section            Section  @relation(fields: [sectionId], references: [id])
+  gradeId            String
+  grade              Grade    @relation(fields: [gradeId], references: [id])
+  results            Result[]
+  batchId            String
+  batch              Batch    @relation(fields: [batchId], references: [id])
+
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([sectionId])
+  @@index([gradeId])
+  @@index([batchId])
+}
+
+model Batch {
+  id   String @id @default(uuid())
+  name String
+  isActive  Boolean @default(false)
+
+  students Student[]
+  results  Result[]
+  exams    Exam[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Exam {
+  id           String        @id @default(uuid())
+  name         String
+  gradeId      String
+  grade        Grade         @relation(fields: [gradeId], references: [id])
+  startingDate DateTime
+  endingDate   DateTime
+  subjects     ExamSubject[]
+  results      Result[]
+  batchId      String
+  batch        Batch         @relation(fields: [batchId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  resultSubjects ResultSubject[]
+
+  @@index([gradeId])
+}
+
+model ExamSubject {
+  id             String          @id @default(uuid())
+  subjectId      String
+  subject        Subject         @relation(fields: [subjectId], references: [id])
+  examId         String
+  exam           Exam            @relation(fields: [examId], references: [id])
+  date           DateTime
+  TfullMarks     String
+  TPassMarks     String
+  PfullMarks     String
+  position       Int
+  resultSubjects ResultSubject[]
+  PpassMarks     String
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  @@index([examId])
+  @@index([subjectId])
+}
+
+model Subject {
+  id             String          @id @default(uuid())
+  name           String
+  subjectCode    String
+  sections       Section[]
+  examSubjects   ExamSubject[]
+  resultSubjects ResultSubject[]
+  createdAt      DateTime        @default(now())
+  optional       Boolean         @default(false)
+  updatedAt      DateTime        @updatedAt
+
+  @@index([subjectCode])
+}
+
+model Grade {
+  id        String    @id @default(uuid())
+  name      String
+  sections  Section[]
+  students  Student[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt()
+  exams      Exam[]
+
+  @@index([name])
+}
+
+model Section {
+  id        String    @id @default(uuid())
+  name      String
+  gradeId   String
+  grade     Grade     @relation(fields: [gradeId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt()
+  users     User[]
+  students  Student[]
+  subjects  Subject[]
+
+  @@index([gradeId])
+}
+
+model Result {
+  id         String  @id @default(uuid())
+  studentId  String
+  student    Student @relation(fields: [studentId], references: [id])
+  batchId    String
+  batch      Batch   @relation(fields: [batchId], references: [id])
+  examId     String
+  exam       Exam    @relation(fields: [examId], references: [id])
+  gpa        String
+  percentage String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+
+  @@index([studentId])
+  @@index([batchId])
+  @@index([examId])
+}
+
+model ResultSubject {
+  id            String      @id @default(uuid())
+  subjectId     String
+  subject       Subject     @relation(fields: [subjectId], references: [id])
+  examId        String
+  exam          Exam        @relation(fields: [examId], references: [id])
+  examSubjectId String
+  examSubject   ExamSubject @relation(fields: [examSubjectId], references: [id])
+
+  TObtainedMarks String
+  TObtainedGpa   String
+
+  PObtainedMarks String
+  PObtainedGpa   String
+
+  gpa   String
+  grade String
+
+  percentage String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([subjectId])
+  @@index([examId])
+  @@index([examSubjectId])
+}
