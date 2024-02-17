@@ -22,7 +22,7 @@ const CourseIdPage = async ({ params }: { params: { batchId: string } }) => {
   return (
     <div className="space-y-10">
       <h1 className="text-2xl font-medium">Batch setup</h1>
-      <span className="text-sm text-slate-700">Customize your batch info's</span>
+      <span className="text-sm text-slate-700">Customize your batch info&apos;s</span>
 
       <div>
         <BatchForm batch={batch} />

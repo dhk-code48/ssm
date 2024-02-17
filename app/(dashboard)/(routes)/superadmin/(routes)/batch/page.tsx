@@ -21,7 +21,7 @@ const GradePage = async () => {
     <>
       <div className="prose">
         <h2 className="mb-0">Batch Management</h2>
-        <p className="text-sm">View and Manage batchs Info's</p>
+        <p className="text-sm">View and Manage batchs Info&apos;s</p>
       </div>
       <DataTable columns={columns} data={batchs} />
     </>

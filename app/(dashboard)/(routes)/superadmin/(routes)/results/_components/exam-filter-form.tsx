@@ -10,21 +10,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Exam, ExamSubject, Grade, Result, Subject } from "@prisma/client";
+import { Exam, ExamSubject, Grade, Result, Section, Subject } from "@prisma/client";
 import { Label } from "@radix-ui/react-label";
-import { Filter, Upload } from "lucide-react";
+import { Download, Filter, Upload } from "lucide-react";
 import React, { FC, useEffect, useState } from "react";
 import readXlsxFile, { Row } from "read-excel-file";
 import SuperAdminResultTable from "./result-table";
+import { downloadFile } from "@/lib/downloadResultSampleExcel";
 
 const ExamFilterForm: FC<{
   grades: (Grade & {
+    sections: Section[];
     exams: (Exam & { results: Result[]; subjects: (ExamSubject & { subject: Subject })[] })[];
   })[];
 }> = ({ grades }) => {
   const [excelfile, setExcelFile] = useState<File | null>(null);
   const [selectedGrade, setSelectedGrade] = useState<string>("");
   const [selectedExam, setSelectedExam] = useState<string>("");
+  const [selectedSection, setSelectedSection] = useState<string>("");
+
   const [bulkData, setBulkData] = useState<Row[]>([]);
 
   useEffect(() => {
@@ -72,9 +76,42 @@ const ExamFilterForm: FC<{
                 ))}
             </SelectGroup>
           </SelectContent>
+        </Select>{" "}
+        <Select onValueChange={(value) => setSelectedSection(value)}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select a Section" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Sections</SelectLabel>
+              {grades
+                .filter((grade) => grade.id === selectedGrade)[0]
+                ?.sections.map((section) => (
+                  <SelectItem value={section.id} key={"exam-filter-form " + section.id}>
+                    {section.name}
+                  </SelectItem>
+                ))}
+            </SelectGroup>
+          </SelectContent>
         </Select>
-        {selectedExam !== "" && selectedGrade !== "" && (
+        {selectedExam !== "" && selectedGrade !== "" && selectedSection !== "" && (
           <>
+            <Button
+              className="gap-x-3"
+              onClick={() =>
+                downloadFile(
+                  selectedGrade,
+                  selectedSection,
+                  selectedExam,
+                  grades
+                    .filter((grade) => grade.id === selectedGrade)[0]
+                    .exams.filter((exam) => exam.id === selectedExam)[0].subjects
+                )
+              }
+            >
+              <Download size={16} />
+              Download Excel Sample
+            </Button>
             <div className="md:flex w-full max-w-sm items-center gap-1.5">
               <Button variant="ghost">Select Excel File</Button>
               <Input
@@ -87,7 +124,7 @@ const ExamFilterForm: FC<{
           </>
         )}
       </div>
-      {selectedExam !== "" && selectedGrade !== "" && (
+      {selectedExam !== "" && selectedGrade !== "" && selectedSection !== "" && (
         <SuperAdminResultTable
           examId={selectedExam}
           results={
@@ -104,7 +141,6 @@ const ExamFilterForm: FC<{
           data={bulkData}
         />
       )}
-      {/* <DataTable columns={columns} data={grades.filter((grade) => grade.id === selectedGrade)[0]} /> */}
     </div>
   );
 };

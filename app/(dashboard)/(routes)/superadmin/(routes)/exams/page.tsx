@@ -24,7 +24,7 @@ const SuperAdminExamsPage = async () => {
     <div>
       <div className="prose">
         <h2 className="mb-0">Exams Management</h2>
-        <p className="text-sm">View and Manage exams Info's</p>
+        <p className="text-sm">View and Manage exams Info&apos;s</p>
       </div>
       <DataTable grades={grades} columns={columns} data={exams} />
     </div>

@@ -22,7 +22,7 @@ const CourseIdPage = async ({ params }: { params: { subjectId: string } }) => {
   return (
     <div className="space-y-10">
       <h1 className="text-2xl font-medium">Subject setup</h1>
-      <span className="text-sm text-slate-700">Customize your subject and info's</span>
+      <span className="text-sm text-slate-700">Customize your subject and info&apos;s</span>
 
       <div>
         <SubjectForm subject={subject} />

@@ -45,7 +45,7 @@ const SuperAdminResultTable: FC<{
       </Table>
 
       {examSubjects.map((examsubject) => (
-        <p>{examsubject.PfullMarks}</p>
+        <p key={"result-table " + examSubjects}>{examsubject.PfullMarks}</p>
       ))}
     </div>
   );

@@ -69,7 +69,7 @@ export function DataTable<TData, TValue>({ columns, data, examId }: DataTablePro
 
   React.useEffect(() => {
     table.getColumn("gradeId")?.toggleVisibility();
-  }, []);
+  }, [table]);
 
   return (
     <div>

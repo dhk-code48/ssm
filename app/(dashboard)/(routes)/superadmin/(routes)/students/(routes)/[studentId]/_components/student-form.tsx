@@ -63,7 +63,7 @@ const TeacherForm = ({ className, grades, student, studentId, ...props }: UserAu
       country: student ? student.country : "",
       temporaryAddress: student ? student.temporaryAddress : "",
       permanentAddress: student ? student.permanentAddress : "",
-      batch: student ? student.batch : "",
+      batchId: student ? student.batchId : "",
       email: student ? student.email : "",
       sectionId: student ? student.sectionId : "",
       gradeId: student ? student.gradeId : "",
@@ -296,7 +296,7 @@ const TeacherForm = ({ className, grades, student, studentId, ...props }: UserAu
 
             <FormField
               control={form.control}
-              name="batch"
+              name="batchId"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Batch</FormLabel>

@@ -75,7 +75,7 @@ export function DataTable<TData, TValue>({ columns, data, grades }: DataTablePro
     table.getColumn("regesteredAt")?.toggleVisibility();
     table.getColumn("gradeId")?.toggleVisibility();
     table.getColumn("sectionId")?.toggleVisibility();
-  }, []);
+  }, [table]);
 
   return (
     <div>

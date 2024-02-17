@@ -103,10 +103,6 @@ const TeacherForm = ({ className, grades, teacher, teacherId, ...props }: UserAu
     });
   }, [grades]);
 
-  useEffect(() => {
-    console.log("Value = > ", form.getValues("sections"));
-  }, [form.getValues("sections")]);
-
   return (
     <div className={cn("grid gap-6 ", className)} {...props}>
       <Form {...form}>

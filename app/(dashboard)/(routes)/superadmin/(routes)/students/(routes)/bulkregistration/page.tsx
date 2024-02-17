@@ -2,7 +2,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { handleTemplateDownload } from "@/lib/student-bulkregistration-template";
 import React, { useEffect, useState } from "react";
 import readXlsxFile from "read-excel-file";
 import {
@@ -16,6 +15,7 @@ import {
 } from "@/components/ui/table";
 import { Student } from "@prisma/client";
 import { v4 as uuidv4 } from "uuid";
+import { downloadFile } from "@/lib/downloadResultSampleExcel";
 const SuperAdminStudentBulkRegistration = () => {
   const [excelfile, setExcelFile] = useState<File | null>(null);
   const [bulkData, setBulkData] = useState<Student[]>([]);
@@ -61,7 +61,7 @@ const SuperAdminStudentBulkRegistration = () => {
           <h2 className="mb-0">Bulk Registration of Students</h2>
           <p className="text-sm">Register huge amount of students at once</p>
         </div>
-        <Button onClick={handleTemplateDownload}>Download CSV Template</Button>
+        <Button onClick={() => downloadFile()}>Download CSV Template</Button>
       </div>
       <div className="grid w-full max-w-sm items-center gap-1.5">
         <Label htmlFor="excelfile">Import Excel File</Label>
@@ -118,7 +118,7 @@ const SuperAdminStudentBulkRegistration = () => {
             ))}
         </TableBody>
       </Table>
-      {bulkData && <Button>Insert Student's Info</Button>}
+      {bulkData && <Button>Insert Student&apos;s Info</Button>}
     </div>
   );
 };

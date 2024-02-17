@@ -57,7 +57,6 @@ export const ExamSubjectList = ({
       position: items.findIndex((item) => item.id === chapter.id),
     }));
 
-    console.log("BULK UPDATE - ", bulkUpdateData);
     onReorder(bulkUpdateData);
   };
 

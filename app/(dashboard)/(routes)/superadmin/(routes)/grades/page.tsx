@@ -24,7 +24,7 @@ const GradePage = async () => {
     <>
       <div className="prose">
         <h2 className="mb-0">Grades Management</h2>
-        <p className="text-sm">View and Manage grades Info's</p>
+        <p className="text-sm">View and Manage grades Info&apos;s</p>
       </div>
       <DataTable columns={columns} data={grades} />
     </>

@@ -12,6 +12,7 @@ const SuperAdminResultPage = async () => {
 
   const grades = await db.grade.findMany({
     include: {
+      sections: true,
       exams: {
         include: {
           results: true,
@@ -34,16 +35,11 @@ const SuperAdminResultPage = async () => {
 
   return (
     <div className="space-y-10 overd">
-      <div className="flex flex-wrap space-y-3 justify-between items-center w-full">
-        <div className="prose">
-          <h2 className="mb-0">Results Management</h2>
-          <p className="text-sm">View and Manage reluts Info's</p>
-        </div>
-        <Button className="gap-x-3">
-          <Download size={16} />
-          Download Excel Sample
-        </Button>
+      <div className="prose">
+        <h2 className="mb-0">Results Management</h2>
+        <p className="text-sm">View and Manage reluts Info&apos;s</p>
       </div>
+
       <ExamFilterForm grades={grades} />
     </div>
   );

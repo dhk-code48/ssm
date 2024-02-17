@@ -24,7 +24,7 @@ const SuperAdminSubjectPage = async () => {
     <>
       <div className="prose">
         <h2 className="mb-0">Subjects Management</h2>
-        <p className="text-sm">View and Manage subjects Info's</p>
+        <p className="text-sm">View and Manage subjects Info&apos;s</p>
       </div>
       <DataTable columns={columns} data={subjects} />
     </>

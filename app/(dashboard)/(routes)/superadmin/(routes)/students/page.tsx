@@ -27,7 +27,7 @@ const SuperAdminStudentsPage = async () => {
       <div className="flex justify-between items-center">
         <div className="prose">
           <h2 className="mb-0">Student Manager</h2>
-          <p className="text-sm">View and Manage Student Info's</p>
+          <p className="text-sm">View and Manage Student Info&apos;s</p>
         </div>
         <div className="flex justify-end items-center flex-1">
           <Link className={buttonVariants()} href="/superadmin/students/bulkregistration">

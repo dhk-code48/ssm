@@ -8,12 +8,6 @@ export const deleteTeacher = async (teacherId: string) => {
         id: teacherId,
       },
     });
-
-    await db.workSheet.deleteMany({
-      where: {
-        teacherId,
-      },
-    });
   } catch (error) {
     return { error: "Something went wrong" };
   }
